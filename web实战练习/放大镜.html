@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+
+    .item{
+        width: 300px;
+        height: 300px;
+        float: left;
+        position: relative;
+        border: 1px solid #cccccc;
+    }
+    .mask{
+        display: none;
+        width: 200px;
+        height: 200px;
+        position: absolute;
+        left: 50px;
+        top: 50px;
+        background-color: yellow;
+        opacity: .7;
+        cursor: move;
+    }
+    .search{
+        margin-left: 15px;
+        display: none;
+        width: 500px;
+        height: 500px;
+        float: left;
+        overflow: hidden;    
+        border: 1px solid #cccccc;
+        position: relative;
+
+    }
+    .search img{
+        width: 800px;
+        height: 800px;
+        position: absolute;
+        left: 0px;
+        top :0px;
+    }
+    img{
+        width: 300px;
+        height: 300px;
+    }
+    </style>
+    <script>
+    window.addEventListener('load',function(){
+        var btn = document.querySelector('.item');
+        var mask = document.querySelector('.mask');
+        var search = document.querySelector('.search');
+        btn.addEventListener('mouseover',function(){
+            mask.style.display = 'block';
+            search.style.display = 'block';    
+        });
+        btn.addEventListener('mouseout',function(){
+            mask.style.display = 'none';
+            search.style.display = 'none';    
+        });
+        btn.addEventListener('mousemove',function(e){
+            var x = e.pageX;
+            var y = e.pageY;
+            var maskMax = btn.offsetWidth - mask.offsetWidth;
+            var maskX =x - mask.offsetWidth / 2;
+            var maskY =y - mask.offsetHeight / 2;
+            if(maskX <= 0){
+                 maskX = 0;
+            }else if(maskX >= maskMax){
+                maskX = maskMax;
+            }
+            if(maskY <= 0){
+                 maskY = 0;
+            }else if(maskY >= maskMax){
+                maskY = maskMax;
+            }
+            mask.style.left =maskX + 'px';
+            mask.style.top = maskY + 'px';
+            console.log(mask.style.left,mask.style.top);
+            var bigImg = document.querySelector('.search img');
+            var bigMax = bigImg.offsetWidth - search.offsetWidth;
+            var bigX = maskX * bigMax / maskMax;
+            
+            
+            var bigY = maskY * bigMax / maskMax;
+            console.log(bigY);
+            
+            bigImg.style.left = -bigX + 'px';
+            
+            bigImg.style.top = -bigY + 'px';  
+             
+            
+        })
+
+    })    
+    
+    </script>
+</head>
+<body>
+    <div class="item">
+        <img src="image/timg.jpg">
+        <div class="mask"></div>
+    </div>
+    <div class="search">
+        <img src="image/timg.jpg">
+    </div>
+    
+</body>
+</html>
