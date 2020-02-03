@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="echarts.js"></script>
+    <style>
+    #content{
+        position: absolute;
+        top: 10px;
+        right:30px;
+        width: 660px;
+        height: 600px;
+    }
+    .item1{
+        width: 660px;
+        height: 300px;
+        border: 2px solid rgb(26, 168, 168);
+        padding-left: 10px;
+        border-radius: 10px;
+        margin-bottom: 10px;
+    }
+    .item2{
+        width: 660px;
+        padding-left: 10px;
+        height: 290px;
+        border: 2px solid rgb(9, 114, 114);
+        border-radius: 10px;
+        text-align: center;
+    }
+    .nave{
+        margin-top: 2px;
+        text-align: center;
+        font-size: 30px;
+        font-weight: 800;
+        color: rgb(206, 5, 5);
+        font-family: "华文楷体";
+    }
+    button{
+        width: 150px;
+        height: 45px;
+        border: none;
+        border-radius: 5px;
+        background-color: rgb(26, 168, 168);
+    }
+    </style>
+</head>
+<body>
+    <!-- <div id="main" style="width: 600px;height:400px;"></div> -->
+    <div id='you' style="width: 800px;height: 610px;border-right: 2px solid  rgb(206, 5, 5);"></div>
+    <script type="text/javascript">
+        setTimeout(function () {
+var youChart = echarts.init(document.getElementById('you'))
+var option = {
+    title:{
+        text:"汽车售出情况"
+    },
+    legend: {
+       // data:['轿车型汽车','SUV型汽车','MPV型汽车']
+    },
+    tooltip: {
+        trigger: 'axis',
+        showContent: false
+    },
+    dataset: {
+        source: [
+            ['product', '2012', '2013', '2014', '2015', '2016', '2017'],
+            ['轿车型汽车', 41.1, 30.4, 65.1, 53.3, 83.8, 98.7],
+            ['SUV型汽车', 86.5, 92.1, 85.7, 83.1, 73.4, 55.1],
+            ['MPV型汽车', 24.1, 67.2, 79.5, 86.4, 65.2, 82.5],
+           // ['Walnut Brownie', 55.2, 67.1, 69.2, 72.4, 53.9, 39.1]
+        ]
+    },
+    xAxis: {type: 'category'},
+    yAxis: {gridIndex: 0},
+    grid: {top: '55%'},
+    series: [
+        {type: 'line', smooth: true, seriesLayoutBy: 'row'},
+        {type: 'line', smooth: true, seriesLayoutBy: 'row'},
+        {type: 'line', smooth: true, seriesLayoutBy: 'row'},
+        {
+            type: 'pie',
+            id: 'pie',
+            radius: '30%',
+            center: ['50%', '25%'],
+            label: {
+                formatter: '{b}: {@2012} ({d}%)'
+            },
+            encode: {
+                itemName: 'product',
+                value: '2012',
+                tooltip: '2012'
+            }
+        }
+    ]
+};
+
+youChart.on('updateAxisPointer', function (event) {
+    var xAxisInfo = event.axesInfo[0];
+    if (xAxisInfo) {
+        var dimension = xAxisInfo.value + 1;
+        youChart.setOption({
+            series: {
+                id: 'pie',
+                label: {
+                    formatter: '{b}: {@[' + dimension + ']} ({d}%)'
+                },
+                encode: {
+                    value: dimension,
+                    tooltip: dimension
+                }
+            }
+        });
+    }
+});
+
+youChart.setOption(option);
+
+});
+    </script>
+<div id="content">
+    <div class="item1">
+        <p class="nave">售出情况详情</p>
+        <P>时间：<select name="time">
+            <option value="2012">2012</option>
+            <option value="2013">2013</option>
+            <option value="2014">2014</option>
+            <option value="2015">2015</option>
+            <option value="2016">2016</option>
+            <option value="2017">2017</option>
+            <option value="2018">2018</option>
+            <option value="2019">2019</option>
+            <option value="2020">2020</option>
+
+        </select></P>
+        <p>售出最佳车型：轿车型汽车</p>
+        <p>售出金额：9999999 （元）</p>
+        <div>
+            <button>停止生产</button>
+            <select>
+                <option value="轿车型汽车">轿车型汽车</option>
+                <option value="SUV型汽车">SUV型汽车</option>
+                <option value="MPV型汽车">MPV型汽车</option>
+            </select>
+        </div>
+    </div>
+    <div class="item2">
+        <div class="nave">温馨提醒：</div>
+        <p style="font-size: 25px;">亲！这边建议您多生产些轿车型汽车哦</p>
+    </div>
+</div>
+</body>
+</html>
